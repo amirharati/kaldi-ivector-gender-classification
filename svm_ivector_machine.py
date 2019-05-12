@@ -21,8 +21,8 @@ import sklearn.metrics
 
 def main():
 
-    train_keys, train_data = read_kaldi_output("kaldi_outputs/lda_train_ivec.txt")
-    eval_keys, eval_data = read_kaldi_output("kaldi_outputs/lda_eval_ivec.txt")
+    train_keys, train_data = read_kaldi_output("kaldi_outputs/norm_train_ivec.txt")
+    eval_keys, eval_data = read_kaldi_output("kaldi_outputs/norm_eval_ivec.txt")
 
     train_labs = []
     for tk in train_keys:

@@ -100,7 +100,7 @@ $KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/spk_ivector.scp ark,t:- > 
 
 $KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/norm_enroll_ivec.txt
 $KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_train/ivector.scp ark,t:- > kaldi_outputs/norm_train_ivec.txt
-$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/norm_train_ivec.txt
+$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_eval/ivector.scp ark,t:- > kaldi_outputs/norm_eval_ivec.txt
 
 
 # LDA  vectors
