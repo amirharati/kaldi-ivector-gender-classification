@@ -55,7 +55,7 @@ sid/train_ivector_extractor.sh --cmd "$train_cmd"  --nj 2 \
   $exp/extractor
 
 ###### Bookmark: i-vector extraction ######
-extract train ivector
+#extract train ivector
 sid/extract_ivectors.sh --cmd "$train_cmd" --nj $nj \
   $exp/extractor data/train $exp/ivector_train
 #extract enroll ivector
@@ -89,28 +89,28 @@ cat $exp/scores/results.txt
 
 
 #  copy ivector to text file
-mkdir outputs
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_enroll/ivector.scp ark,t:- > outputs/enroll_ivec.txt
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_train/ivector.scp ark,t:- > outputs/train_ivec.txt
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/ivector.scp ark,t:- > outputs/eval_ivec.txt
+mkdir kaldi_outputs
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/enroll_ivec.txt
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_train/ivector.scp ark,t:- > kaldi_outputs/train_ivec.txt
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/ivector.scp ark,t:- > kaldi_outputs/eval_ivec.txt
 
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_enroll/spk_ivector.scp ark,t:- > outputs/norm_spk_enroll_ivec.txt
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_train/spk_ivector.scp ark,t:- > outputs/norm_spk_train_ivec.txt
-$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/spk_ivector.scp ark,t:- > outputs/norm_spk_eval_ivec.txt
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_enroll/spk_ivector.scp ark,t:- > kaldi_outputs/norm_spk_enroll_ivec.txt
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_train/spk_ivector.scp ark,t:- > kaldi_outputs/norm_spk_train_ivec.txt
+$KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/spk_ivector.scp ark,t:- > kaldi_outputs/norm_spk_eval_ivec.txt
 
-$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > outputs/norm_enroll_ivec.txt
-$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_train/ivector.scp ark,t:- > outputs/norm_train_ivec.txt
-$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > outputs/norm_train_ivec.txt
+$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/norm_enroll_ivec.txt
+$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_train/ivector.scp ark,t:- > kaldi_outputs/norm_train_ivec.txt
+$KALDI_ROOT/src/ivectorbin/ivector-normalize-length scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/norm_train_ivec.txt
 
 
 # LDA  vectors
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_enroll/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_spk_enroll_ivec.txt
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_train/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_spk_train_ivec.txt
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_spk_eval_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_enroll/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_spk_enroll_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_train/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_spk_train_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_spk_eval_ivec.txt
 
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_enroll/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_enroll_ivec.txt
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_train/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_train_ivec.txt
-ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > outputs/lda_eval_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_enroll/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_enroll_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_train/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_train_ivec.txt
+ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_eval_ivec.txt
 
 #TODO qadd plda 
 
