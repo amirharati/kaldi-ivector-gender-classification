@@ -62,12 +62,20 @@ def main():
     accuracy = (cm[0,0] + cm[1,1]) / total
     precision, recall, f1, support = precision_recall_fscore_support(eval_labs, y_pred_bin)
 
+
+
     print("AUC: ", auc)
     print("EER specificity, sensitivity:", specificity, sensitivity)
     print("EER cm:", cm)
     print("EER accuracy:", accuracy)
     print("EER precision, recall, f1, support:", precision, recall, f1, support)
 
+    index = 0
+    print("error cases")
+    for l, yb, s in zip(eval_labs, y_pred_bin, list(z[:, 1])):
+        if l != yb:
+            print(eval_keys[index]," score (post. being class female): ", s)
+        index += 1
 
 if __name__ == "__main__":
     main()
