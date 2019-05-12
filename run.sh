@@ -1,16 +1,6 @@
 #!/bin/bash
-# Copyright 2017 Beijing Shell Shell Tech. Co. Ltd. (Authors: Hui Bu)
-#           2017 Jiayu Du
-#           2017 Chao Li
-#           2017 Xingyu Na
-#           2017 Bengu Wu
-#           2017 Hao Zheng
-# Apache 2.0
-
-# This is a shell script that we demonstrate speech recognition using AIShell-1 data.
-# it's recommended that you run the commands one by one by copying and pasting into the shell.
-# See README.txt for more info on data required.
-# Results (EER) are inline in comments below
+# gender classification  based on : https://github.com/lr2582858/kaldi-timit-sre-ivector/blob/master/v1/run.sh
+# Amir Harati, May 2019
 
 . ./cmd.sh
 . ./path.sh
