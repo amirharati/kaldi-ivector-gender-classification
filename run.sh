@@ -89,7 +89,7 @@ cat $exp/scores/results.txt
 
 
 #  copy ivector to text file
-mkdir kaldi_outputs
+mkdir -p kaldi_outputs
 $KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_enroll/ivector.scp ark,t:- > kaldi_outputs/enroll_ivec.txt
 $KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_train/ivector.scp ark,t:- > kaldi_outputs/train_ivec.txt
 $KALDI_ROOT/src/bin/copy-vector scp:$exp/ivector_eval/ivector.scp ark,t:- > kaldi_outputs/eval_ivec.txt
@@ -112,6 +112,24 @@ ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_enroll/ivect
 ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_train/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_train_ivec.txt
 ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/ivector.scp ark:- | ivector-normalize-length ark:- ark,t:- > kaldi_outputs/lda_eval_ivec.txt
 
-#TODO qadd plda 
+#PLDA (using custom code)
+
+run.pl logs_plda_trans.log \
+  ivector-plda-scoring-transform --normalize-length=true \
+    --simple-length-normalization=true\
+    --num-utts=ark:$exp/ivector_enroll/num_utts.ark \
+    "ivector-copy-plda --smoothing=0.0 $exp/ivector_train/plda - |" \
+    "ark:ivector-subtract-global-mean $exp/ivector_train/mean.vec scp:$exp/ivector_enroll/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark:- |" \
+    "ark:ivector-normalize-length scp:$exp/ivector_train/ivector.scp ark:- | ivector-subtract-global-mean $exp/ivector_train/mean.vec ark:- ark:- | ivector-normalize-length ark:- ark:- |" \
+    ./kaldi_outputs/plda_train_ivec.txt|| exit 1;
+
+run.pl logs_plda_trans.log \
+  ivector-plda-scoring-transform --normalize-length=true \
+    --simple-length-normalization=true\
+    --num-utts=ark:$exp/ivector_enroll/num_utts.ark \
+    "ivector-copy-plda --smoothing=0.0 $exp/ivector_train/plda - |" \
+    "ark:ivector-subtract-global-mean $exp/ivector_train/mean.vec scp:$exp/ivector_enroll/spk_ivector.scp ark:- | ivector-normalize-length ark:- ark:- |" \
+    "ark:ivector-normalize-length scp:$exp/ivector_eval/ivector.scp ark:- | ivector-subtract-global-mean $exp/ivector_train/mean.vec ark:- ark:- | ivector-normalize-length ark:- ark:- |" \
+    ./kaldi_outputs/plda_eval_ivec.txt|| exit 1;
 
 exit 0
