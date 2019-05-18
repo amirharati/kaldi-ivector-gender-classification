@@ -115,7 +115,7 @@ ivector-transform $exp/ivector_train/transform.mat scp:$exp/ivector_eval/ivector
 #PLDA (using custom code)
 
 run.pl logs_plda_trans.log \
-  ivector-plda-scoring-transform --normalize-length=true \
+  ivector-plda-transform --normalize-length=true \
     --simple-length-normalization=true\
     --num-utts=ark:$exp/ivector_enroll/num_utts.ark \
     "ivector-copy-plda --smoothing=0.0 $exp/ivector_train/plda - |" \
@@ -124,7 +124,7 @@ run.pl logs_plda_trans.log \
     ./kaldi_outputs/plda_train_ivec.txt|| exit 1;
 
 run.pl logs_plda_trans.log \
-  ivector-plda-scoring-transform --normalize-length=true \
+  ivector-plda-transform --normalize-length=true \
     --simple-length-normalization=true\
     --num-utts=ark:$exp/ivector_enroll/num_utts.ark \
     "ivector-copy-plda --smoothing=0.0 $exp/ivector_train/plda - |" \
